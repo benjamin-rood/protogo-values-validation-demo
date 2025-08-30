@@ -1,0 +1,7 @@
+version: v1
+plugins:
+  # Our custom plugin (replaces standard go plugin)
+  - plugin: go-values
+    out: gen
+    opt:
+      - paths=source_relative

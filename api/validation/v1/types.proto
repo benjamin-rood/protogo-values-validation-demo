@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package validation.v1;
+
+import "protogo_values/options.proto";
+
+option go_package = "github.com/benjamin-rood/protogo-values-validation-demo/gen/api/validation/v1";
+
+// Test message for MVP validation
+message ValidationTestMessage {
+  // Should generate []DataPoint (value slice)
+  repeated DataPoint value_slice_data = 1 [(protogo_values.value_slice) = true];
+  
+  // Should remain []*DataPoint (pointer slice - control group)
+  repeated DataPoint pointer_slice_data = 2;
+  
+  // Test structured field option format
+  repeated MetricPoint metrics = 3 [(protogo_values.field_opts).value_slice = true];
+}
+
+message DataPoint {
+  string id = 1;
+  double value = 2;
+  int64 timestamp = 3;
+}
+
+message MetricPoint {
+  string name = 1;
+  double measurement = 2;
+  map<string, string> labels = 3;
+}
