@@ -1,0 +1,12 @@
+version: v1
+plugins:
+  # Use standard protoc-gen-go for validation service (avoids plugin transformation bugs)
+  - plugin: go
+    out: gen
+    opt:
+      - paths=source_relative
+  # Generate gRPC services
+  - plugin: go-grpc
+    out: gen
+    opt:
+      - paths=source_relative
