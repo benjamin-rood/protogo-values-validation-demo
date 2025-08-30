@@ -181,7 +181,7 @@ func TestGeneratedTypeValidation(t *testing.T) {
         name       string
         fieldPath  string
         expectType string
-        actualType interface{}
+        actualType any
     }{
         {
             name:       "value_slice_data should be value slice",

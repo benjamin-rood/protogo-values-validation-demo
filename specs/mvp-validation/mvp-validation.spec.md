@@ -155,13 +155,13 @@ func TestPluginTypeTransformation(t *testing.T) {
         name           string
         fieldName      string
         expectedType   string
-        getActualType  func() interface{}
+        getActualType  func() any
     }{
         {
             name:         "value_slice_data should be value slice",
             fieldName:    "ValueSliceData", 
             expectedType: "[]v1.DataPoint",
-            getActualType: func() interface{} {
+            getActualType: func() any {
                 return v1.ValidationTestMessage{}.ValueSliceData
             },
         },
@@ -169,7 +169,7 @@ func TestPluginTypeTransformation(t *testing.T) {
             name:         "pointer_slice_data should remain pointer slice",
             fieldName:    "PointerSliceData",
             expectedType: "[]*v1.DataPoint", 
-            getActualType: func() interface{} {
+            getActualType: func() any {
                 return v1.ValidationTestMessage{}.PointerSliceData
             },
         },
@@ -177,7 +177,7 @@ func TestPluginTypeTransformation(t *testing.T) {
             name:         "metrics should be value slice (structured option)",
             fieldName:    "Metrics",
             expectedType: "[]v1.MetricPoint",
-            getActualType: func() interface{} {
+            getActualType: func() any {
                 return v1.ValidationTestMessage{}.Metrics
             },
         },

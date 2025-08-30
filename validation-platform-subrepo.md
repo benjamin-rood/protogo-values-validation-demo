@@ -296,7 +296,7 @@ func TestValueSliceGeneration(t *testing.T) {
         name      string
         fieldName string
         wantType  string
-        gotType   interface{}
+        gotType   any
     }{
         {
             name:      "BatchRequest.Items should be value slice",
