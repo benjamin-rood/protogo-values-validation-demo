@@ -4,7 +4,7 @@ A **Minimum Viable Product** validation platform for the `protoc-gen-go-values` 
 
 ## Overview
 
-This MVP validates that the `protoc-gen-go-values` plugin correctly transforms repeated protobuf fields marked with `(protogo_values.value_slice) = true` from pointer slices (`[]*Type`) to value slices (`[]Type`).
+This MVP validates that the `protoc-gen-go-values` plugin correctly transforms repeated protobuf fields marked with field options from pointer slices (`[]*Type`) to value slices (`[]Type`). Supports both simple and structured field option formats.
 
 **Full Platform**: This MVP implements the essential components from the complete [validation platform specification](specs/validation-platform/validation-platform.spec.md). See [MVP specification](specs/mvp-validation/mvp-validation.spec.md) for detailed requirements.
 
@@ -13,31 +13,34 @@ This MVP validates that the `protoc-gen-go-values` plugin correctly transforms r
 ```
 protogo-values-validation-demo/
 ├── api/validation/v1/           # Protobuf definitions with field options
-│   ├── types.proto             # Test messages using plugin field options  
-│   └── buf.yaml                # Buf module configuration
+│   └── types.proto             # Test messages using plugin field options  
 ├── internal/validation/         # Test implementations
 │   ├── types_test.go           # Type validation tests
 │   └── benchmark_test.go       # Performance benchmarks
 ├── specs/                      # Specifications
 │   ├── mvp-validation/         # MVP specification
 │   └── validation-platform/    # Full platform specification  
-├── buf.gen.yaml                # Code generation config (uses local plugin)
-├── buf.yaml                    # Root buf configuration
-├── go.mod                      # Go module
-└── Makefile                    # Build automation
+├── gen/                        # Generated Go code (created by make generate)
+├── buf.gen.yaml                # Code generation config (for reference)
+├── buf.yaml                    # Root buf configuration (for reference)
+├── go.mod                      # Go module with local plugin dependency
+├── Makefile                    # Build automation using protoc
+└── .gitignore                  # Excludes generated files
 ```
 
 ## Quick Start
 
 ### Prerequisites
 - Go 1.24+
-- [Buf CLI](https://docs.buf.build/installation)
+- [Protocol Buffers compiler (protoc)](https://protobuf.dev/downloads/)
 - Local plugin from `../protogo-values/`
+
+**Note**: While this project includes buf configuration files, code generation uses `protoc` directly to properly resolve proto imports from the parent project.
 
 ### Usage
 
 ```bash
-# Install plugin from adjacent directory and generate code
+# Install plugin from adjacent directory and generate code using protoc
 make generate
 
 # Run type validation tests  
@@ -48,6 +51,9 @@ make benchmark
 
 # Clean generated files
 make clean
+
+# Show all available commands
+make help
 ```
 
 ## What Gets Validated
@@ -63,9 +69,12 @@ make clean
 - Zero-allocation access for slice operations
 
 ### Plugin Integration
-- Local plugin binary integration via Buf
+- Local plugin binary integration via protoc
 - Code generation from protobuf with field options
+- Proto import resolution from parent project (`../protogo-values/proto/`)
 - Compilation verification of generated Go code
+
+**Recent Fix**: Resolved critical bug where structured field options were only partially working. Both simple and structured field option formats now transform correctly.
 
 ## Example Test Output
 
