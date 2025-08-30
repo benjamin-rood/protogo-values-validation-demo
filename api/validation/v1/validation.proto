@@ -1,0 +1,107 @@
+syntax = "proto3";
+
+package validation.v1;
+
+import "api/validation/v1/types.proto";
+
+option go_package = "github.com/benjamin-rood/protogo-values-validation-demo/gen/api/validation/v1";
+
+service ValidationService {
+  // Validates type generation correctness
+  rpc ValidateTypes(ValidateTypesRequest) returns (ValidateTypesResponse);
+
+  // Benchmarks performance characteristics
+  rpc RunBenchmarks(BenchmarkRequest) returns (BenchmarkResponse);
+
+  // Stream processing validation
+  rpc StreamValidation(stream StreamRequest) returns (stream StreamResponse);
+}
+
+// Request message for type validation
+message ValidateTypesRequest {
+  // Test scenarios to validate
+  repeated string test_scenarios = 1;
+  // Whether to perform deep validation
+  bool deep_validation = 2;
+}
+
+// Response message for type validation
+message ValidateTypesResponse {
+  // Overall validation result
+  bool success = 1;
+  // Validation results per scenario
+  repeated ValidationResult results = 2;
+  // Total number of value slices found
+  int32 value_slice_count = 3;
+  // Total number of pointer slices found
+  int32 pointer_slice_count = 4;
+}
+
+// Individual validation result
+message ValidationResult {
+  string scenario = 1;
+  bool passed = 2;
+  string error_message = 3;
+  string expected_type = 4;
+  string actual_type = 5;
+}
+
+// Request message for benchmark validation
+message BenchmarkRequest {
+  // Number of iterations for benchmarks
+  int32 iterations = 1;
+  // Data size for benchmark tests
+  int32 data_size = 2;
+  // Specific benchmarks to run
+  repeated string benchmark_names = 3;
+}
+
+// Response message for benchmark validation
+message BenchmarkResponse {
+  // Overall benchmark success
+  bool success = 1;
+  // Individual benchmark results
+  repeated BenchmarkResult results = 2;
+  // Summary statistics
+  BenchmarkSummary summary = 3;
+}
+
+// Individual benchmark result
+message BenchmarkResult {
+  string name = 1;
+  double duration_ns = 2;
+  int64 allocations = 3;
+  int64 bytes_allocated = 4;
+  double operations_per_second = 5;
+}
+
+// Benchmark summary statistics
+message BenchmarkSummary {
+  double value_slice_avg_duration = 1;
+  double pointer_slice_avg_duration = 2;
+  double performance_improvement_ratio = 3;
+  int64 memory_savings_bytes = 4;
+}
+
+// Request message for streaming validation
+message StreamRequest {
+  string request_id = 1;
+  ValidationTestMessage test_data = 2;
+  int32 sequence_number = 3;
+}
+
+// Response message for streaming validation
+message StreamResponse {
+  string request_id = 1;
+  bool success = 2;
+  string message = 3;
+  int32 sequence_number = 4;
+  ProcessingStats stats = 5;
+}
+
+// Processing statistics
+message ProcessingStats {
+  int64 processing_time_ns = 1;
+  int32 items_processed = 2;
+  double throughput = 3;
+}

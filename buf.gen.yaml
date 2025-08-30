@@ -5,3 +5,8 @@ plugins:
     out: gen
     opt:
       - paths=source_relative
+  # Generate gRPC services
+  - plugin: go-grpc
+    out: gen
+    opt:
+      - paths=source_relative
