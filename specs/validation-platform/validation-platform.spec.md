@@ -1,8 +1,8 @@
-# Validation Platform Sub-Repository Specification
+# Validation Platform Specification
 
 ## Overview
 
-This specification defines a separate sub-repository that serves as a comprehensive validation platform for the `protoc-gen-go-values` plugin. The platform provides end-to-end validation of plugin functionality through realistic usage scenarios, performance benchmarks, and production-ready deployment patterns.
+This specification defines a separate repository that serves as a comprehensive validation platform for the `protoc-gen-go-values` plugin. The platform provides end-to-end validation of plugin functionality through realistic usage scenarios, performance benchmarks, and production-ready deployment patterns.
 
 ## Repository Structure
 
